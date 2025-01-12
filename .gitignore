@@ -1,0 +1,7 @@
+.gradle/
+.idea/
+
+app/.gitignore
+app/.gradle/
+app/.idea/
+
