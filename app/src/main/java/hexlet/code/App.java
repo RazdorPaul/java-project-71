@@ -8,8 +8,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;cd
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,13 +35,9 @@ public class App implements Callable<Integer>{
 
     @Override
     public Integer call() throws Exception {
-        Path path1 = FileUtils.getPath(defaultFolder1);
-        Path path2 = FileUtils.getPath(defaultFolder2);
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> map1 = mapper.readValue(path1.toFile(), new TypeReference<>(){});
-        Map<String, Object> map2 = mapper.readValue(path2.toFile(), new TypeReference<>(){});
-        System.out.println(map1);
-        System.out.println(map2);
+        GenDiff generator = new GenDiff(defaultFolder1, defaultFolder2);
+        System.out.println(generator.getMap1());
+        System.out.println(generator.getMap2());
         return 0;
     }
 }
