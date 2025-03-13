@@ -1,18 +1,9 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.type.TypeReference;
-import hexlet.code.utils.FileUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 @Command(name = "gendiff",
@@ -36,8 +27,7 @@ public class App implements Callable<Integer>{
     @Override
     public Integer call() throws Exception {
         GenDiff generator = new GenDiff(defaultFolder1, defaultFolder2);
-        System.out.println(generator.getMap1());
-        System.out.println(generator.getMap2());
+        System.out.println(generator.generate());
         return 0;
     }
 }
