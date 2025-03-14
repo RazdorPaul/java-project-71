@@ -16,7 +16,7 @@ public class FileUtils {
         return strings;
     }
 
-    public static Path getPath(String filename){
+    public static Path getPath(String filename) {
         if (Paths.get(filename).isAbsolute()) {
             return Paths.get(filename);
         }

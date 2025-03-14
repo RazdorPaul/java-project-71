@@ -1,8 +1,6 @@
 package hexlet.code;
 
-
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -34,7 +32,7 @@ public class GenDiff {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> result = null;
         try {
-            result = mapper.readValue(file, new TypeReference<>(){});
+            result = mapper.readValue(file, new TypeReference<>() { });
         } catch (JsonProcessingException e) {
             System.out.println("Невозможно конвертировать строку в карту значений!");
         }
@@ -45,7 +43,7 @@ public class GenDiff {
         LinkedHashMap<String, Object> diff = new LinkedHashMap<>();
         TreeSet<String> keys = new TreeSet<>(fileMap1.keySet());
         keys.addAll(fileMap2.keySet());
-        for (String key : keys){
+        for (String key : keys) {
             if (fileMap1.containsKey(key) && fileMap2.containsKey(key)) {
                 if (fileMap1.get(key).equals(fileMap2.get(key))) {
                     diff.put("  " + key, fileMap1.get(key));
