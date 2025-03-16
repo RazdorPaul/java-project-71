@@ -13,7 +13,6 @@ jobs:
       - run: ./gradlew checkstyleMain
       - run: ./gradlew checkstyleTest
       - uses: qltysh/qlty-action/coverage@main
-        env:
-          coverage-token: ${{secrets.QLTY_COVERAGE_TOKEN}}
         with:
+          coverage-token: ${{secrets.QLTY_COVERAGE_TOKEN}}
           files: reports/coverage.xml
