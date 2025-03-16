@@ -10,8 +10,9 @@ jobs:
           distribution: 'oracle'
           java-version: '22'
       - uses: gradle/actions/setup-gradle@v4
-      - run: ./app/gradlew checkstyleMain
-      - run: ./app/gradlew checkstyleTest
+      - working-directory: ./app
+      - run: ./gradlew checkstyleMain
+      - run: ./gradlew checkstyleTest
       - uses: qltysh/qlty-action/coverage@main
         env:
           coverage-token: ${{secrets.QLTY_COVERAGE_TOKEN}}
