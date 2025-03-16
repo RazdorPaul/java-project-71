@@ -9,9 +9,7 @@ jobs:
         with:
           distribution: 'oracle'
           java-version: '22'
-      - name: setup Gradle
-      - uses: gradle/actions/setup-gradle@v4      
-      - name: Build with Gradle wtapper
+      - uses: gradle/actions/setup-gradle@v4   
       - run: ./gradlew build
       - run: ./gradlew checkstyleTest
       - uses: qltysh/qlty-action/coverage@main
