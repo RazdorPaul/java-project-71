@@ -1,9 +1,9 @@
 plugins {
     application
     checkstyle
+    jacoco
     id("com.github.ben-manes.versions") version "0.52.0"
     id("distribution")
-    jacoco
 }
 
 
@@ -23,6 +23,26 @@ dependencies {
 
 application {
     mainClass = "hexlet.code.App"
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.50".toBigDecimal()
+            }
+        }
+    }
 }
 
 tasks.test {
