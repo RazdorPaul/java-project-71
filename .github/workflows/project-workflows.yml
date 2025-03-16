@@ -12,8 +12,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.10
-      - run: gradlew checkstyleMain
-      - run: gradlew checkstyleTest
+      - run: ./gradlew checkstyleMain
+      - run: ./gradlew checkstyleTest
       - uses: qltysh/qlty-action/coverage@main
         env:
           coverage-token: ${{secrets.QLTY_COVERAGE_TOKEN}}
