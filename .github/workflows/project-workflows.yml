@@ -9,7 +9,7 @@ jobs:
         with:
           distribution: 'oracle'
           java-version: '22'
-      - uses: gradle/gradle-build-action@v3
+      - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.10
       - run: gradlew checkstyleMain
