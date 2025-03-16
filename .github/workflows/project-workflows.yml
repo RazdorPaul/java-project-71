@@ -1,0 +1,16 @@
+name: project-workflows
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/java-setup@v4
+        with:
+          distribution: 'oracle'
+          java-version: '22'
+      - uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.10
+      - run: .gradlew checkstyleMain
+      - run: .gradlew checkstyleTest

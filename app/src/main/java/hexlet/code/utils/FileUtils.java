@@ -21,6 +21,7 @@ public class FileUtils {
             return Paths.get(filename);
         }
         String workPath = System.getProperty("user.dir");
+        System.out.println(workPath);
         filename = workPath + "/" + filename;
         return Paths.get(filename).normalize();
     }
