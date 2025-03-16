@@ -8,7 +8,7 @@ jobs:
       - uses: actions/java-setup@v4
         with:
           distribution: 'oracle'
-          java-version: '22'
+          java-version: '21'
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.10
