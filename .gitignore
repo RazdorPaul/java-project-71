@@ -1,5 +1,6 @@
 .gradle/
 .idea/
+.qlty/
 
 app/.gitignore
 app/.gradle/
