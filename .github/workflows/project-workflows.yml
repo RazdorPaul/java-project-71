@@ -16,5 +16,5 @@ jobs:
       - run: .gradlew checkstyleTest
       - uses: qltysh/qlty-action/coverage@main
         with:
-          coverage-token: {{secrets.qltcp_xWdUcbHqhkfldhdE}}
+          coverage-token: {{secrets.CODECOVERAGE}}
           files: reports/coverage.xml
