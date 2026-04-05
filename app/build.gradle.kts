@@ -17,6 +17,7 @@ dependencies {
     implementation ("info.picocli:picocli:4.7.7")
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.21.1"))
     implementation ("com.fasterxml.jackson.core:jackson-databind")
+    implementation ("org.apache.commons:commons-collections4:4.4")
 }
 
 tasks.test {
