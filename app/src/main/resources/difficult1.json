@@ -1,0 +1,11 @@
+{
+  "order_id": "A-554",
+  "customer": {
+    "name": "Alex",
+    "phone": "+79000000000"
+  },
+  "delivery": {
+    "city": "Moscow",
+    "address": "Lenina st., 1"
+  }
+}
