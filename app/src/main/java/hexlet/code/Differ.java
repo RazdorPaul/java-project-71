@@ -10,11 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class Gendiff {
+public class Differ {
     private final String firstFile;
     private final String secondFile;
 
-    public Gendiff(String filepath1, String filepath2) throws IOException {
+    public Differ(String filepath1, String filepath2) throws IOException {
         firstFile = getStringFile(getAbsolute(filepath1));
         secondFile = getStringFile(getAbsolute(filepath2));
     }
@@ -48,5 +48,9 @@ public class Gendiff {
 
     public String getSecondFile() {
         return secondFile;
+    }
+    public void generate() throws JsonProcessingException {
+        var map1 = getMap(firstFile);
+        var map2 = getMap(secondFile);
     }
 }
