@@ -8,21 +8,38 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class Differ {
+    /**
+     * Поле для хранения строки.
+     * Строка читается из первого входного файла
+     */
     private final String firstFile;
+    /**
+     * Поле для хранения строки.
+     * Строка читается из второго входного файла.
+     */
     private final String secondFile;
 
-    public Differ(String filepath1, String filepath2) throws IOException {
+    /**
+     * Конструктор класса Differ.
+     * @param filepath1 - имя первого файла.
+     * @param filepath2 - имя второго файла.
+     * Возможно исключение IOException.
+     */
+    public Differ(final String filepath1,
+                  final String filepath2) throws IOException {
         firstFile = getStringFile(getAbsolute(filepath1));
         secondFile = getStringFile(getAbsolute(filepath2));
     }
 
-    private Path getAbsolute(String file) {
+    private Path getAbsolute(final String file) {
         Path path;
         if (file.startsWith("~")) {
-            path = Paths.get(System.getProperty("user.home"), file.substring(1));
+            path = Paths.get(System.getProperty("user.home"),
+                    file.substring(1));
         } else {
             path = Paths.get(file);
         }
@@ -32,49 +49,91 @@ public class Differ {
         return path.normalize();
     }
 
-    private String getStringFile(Path path) throws IOException {
+    private String getStringFile(final Path path) throws IOException {
         return Files.readString(path).strip();
     }
 
-    public Map<String, Object> getMap(String json) throws JsonProcessingException {
+    private Map<String, Object> getMap(final String json)
+            throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, new TypeReference<>() {
         });
     }
 
-    public String getFirstFile() {
+    /**
+     * Геттер поля класса.
+     * @return - строковое представление первого переданного файла.
+     */
+    public final String getFirstFile() {
         return firstFile;
     }
 
-    public String getSecondFile() {
+    /**
+     * Геттер поля класса.
+     * @return - строковое представление второго переданного файла.
+     */
+    public final String getSecondFile() {
         return secondFile;
     }
 
-    public String generate(String file1, String file2) throws JsonProcessingException {
-        //Формируем мапы из строк, полученных в результате чтения входных файлов.
+    /**
+     * Метод генерации строки, содержащей различия в переданных файлах.
+     * @param file1 - строковое представление первого переданного файла.
+     * @param file2 - строковое представление второго переданного файла.
+     * @return строка, содержащая различия в файлах
+     * @throws JsonProcessingException
+     */
+    public String generate(final String file1, final String file2)
+            throws JsonProcessingException {
+        //Формируем мапы из строк, полученных
+        // в результате чтения входных файлов.
         var map1 = getMap(file1);
         var map2 = getMap(file2);
         //Создаем множество для хранения сортированного множества ключей
         var allKeys = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-
+        //добавляем ключи из карт
         allKeys.addAll(map1.keySet());
         allKeys.addAll(map2.keySet());
-
+        //создаем билдер для сборки результирующей строки
         var result = new StringBuilder("{\n");
-
+        //обходим множество ключей
         for (String key : allKeys) {
+            //создаем переменные для хранения значений, где ключом
+            //выступает элемент созданного множества, а в переменные
+            //записываются значения этого ключа из обеих карт
             var value1 = map1.get(key);
             var value2 = map2.get(key);
-
+            //дальше собираем строку из пар обеих мап
+            // по правилам в спецификациях задачи.
             if (map1.containsKey(key) && !map2.containsKey(key)) {
-                result.append("  - ").append(key).append(": ").append(value1).append("\n");
+                result.append("  - ")
+                        .append(key)
+                        .append(": ")
+                        .append(value1).
+                        append("\n");
             } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                result.append("  + ").append(key).append(": ").append(value2).append("\n");
+                result.append("  + ")
+                        .append(key)
+                        .append(": ")
+                        .append(value2)
+                        .append("\n");
             } else if (value1.equals(value2)) {
-                result.append("    ").append(key).append(": ").append(value1).append("\n");
+                result.append("    ")
+                        .append(key)
+                        .append(": ")
+                        .append(value1)
+                        .append("\n");
             } else {
-                result.append("  - ").append(key).append(": ").append(value1).append("\n");
-                result.append("  + ").append(key).append(": ").append(value2).append("\n");
+                result.append("  - ")
+                        .append(key)
+                        .append(": ")
+                        .append(value1)
+                        .append("\n");
+                result.append("  + ")
+                        .append(key)
+                        .append(": ")
+                        .append(value2)
+                        .append("\n");
             }
         }
 
