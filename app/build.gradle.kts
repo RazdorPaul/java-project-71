@@ -1,7 +1,8 @@
 plugins {
     id("java")
-    application
     id ("com.github.ben-manes.versions") version "0.51.0"
+    application
+    checkstyle
 }
 
 group = "hexlet.code"
@@ -26,4 +27,9 @@ tasks.test {
 
 application {
     mainClass.set("hexlet.code.App")
+}
+
+checkstyle {
+    toolVersion = "10.12.5"
+    configFile = rootProject.file("config/checkstyle/checkstyle.xml")
 }
