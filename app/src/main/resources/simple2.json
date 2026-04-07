@@ -1,5 +1,8 @@
 {
   "status": "success",
   "message": "Hello Hexlet",
-  "code": 200
+  "code": 200,
+  "id": 135,
+  "time": "14.45",
+  "country": "Russian Federation"
 }

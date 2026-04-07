@@ -1,5 +1,5 @@
 run-dist:
-	./build/install/app/bin/app  src/main/resources/nodiff1.json src/main/resources/diff.json
+	./build/install/app/bin/app  src/main/resources/simple1.json src/main/resources/simple2.json
 
 run-help:
 	./build/install/app/bin/app -h

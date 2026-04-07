@@ -38,8 +38,7 @@ public class App implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         Differ gen = new Differ(filepath1, filepath2);
-        System.out.println(gen.getMap(gen.getFirstFile()));
-        System.out.println(gen.getMap(gen.getSecondFile()));
+        System.out.println(gen.generate(gen.getFirstFile(), gen.getSecondFile()));
         return 0;
     }
 }

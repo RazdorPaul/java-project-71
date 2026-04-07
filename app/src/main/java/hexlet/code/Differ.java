@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
+import java.util.*;
 
 public class Differ {
     private final String firstFile;
@@ -49,8 +49,35 @@ public class Differ {
     public String getSecondFile() {
         return secondFile;
     }
-    public void generate() throws JsonProcessingException {
-        var map1 = getMap(firstFile);
-        var map2 = getMap(secondFile);
+
+    public String generate(String file1, String file2) throws JsonProcessingException {
+        //Формируем мапы из строк, полученных в результате чтения входных файлов.
+        var map1 = getMap(file1);
+        var map2 = getMap(file2);
+        //Создаем множество для хранения сортированного множества ключей
+        var allKeys = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+
+        allKeys.addAll(map1.keySet());
+        allKeys.addAll(map2.keySet());
+
+        var result = new StringBuilder("{\n");
+
+        for (String key : allKeys) {
+            var value1 = map1.get(key);
+            var value2 = map2.get(key);
+
+            if (map1.containsKey(key) && !map2.containsKey(key)) {
+                result.append("  - ").append(key).append(": ").append(value1).append("\n");
+            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
+                result.append("  + ").append(key).append(": ").append(value2).append("\n");
+            } else if (value1.equals(value2)) {
+                result.append("    ").append(key).append(": ").append(value1).append("\n");
+            } else {
+                result.append("  - ").append(key).append(": ").append(value1).append("\n");
+                result.append("  + ").append(key).append(": ").append(value2).append("\n");
+            }
+        }
+
+        return result.append("}").toString();
     }
 }
