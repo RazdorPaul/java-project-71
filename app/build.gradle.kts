@@ -1,8 +1,10 @@
 plugins {
     id("java")
     id ("com.github.ben-manes.versions") version "0.51.0"
+    id("org.sonarqube") version "7.2.3.7755"
     application
     checkstyle
+    jacoco
 }
 
 group = "hexlet.code"
@@ -23,6 +25,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 application {
@@ -33,3 +36,45 @@ checkstyle {
     toolVersion = "10.12.5"
     configFile = rootProject.file("config/checkstyle/checkstyle.xml")
 }
+
+sonar {
+    properties {
+        property("sonar.projectKey", "RazdorPaul_java-project-71")
+        property("sonar.organization", "razdorpau")
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)   // XML отчет для SonarQube
+        html.required.set(true)  // HTML отчет для просмотра
+        csv.required.set(false)
+    }
+
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            //exclude("**/App.class")  // исключаем main класс если нужно
+        }
+    )
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.test)
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.70".toBigDecimal()  // минимальное покрытие 70%
+            }
+        }
+    }
+}
+
+tasks.check {
+    dependsOn(tasks.jacocoTestCoverageVerification)
+}
+
