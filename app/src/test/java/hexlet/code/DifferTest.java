@@ -9,6 +9,9 @@ import java.io.IOException;
 
 public class DifferTest {
 
+    /**
+     * Переменная для хранения эталонной строки.
+     */
     private  String expected;
 
     private String getPath(final String name) throws IOException {
@@ -19,6 +22,9 @@ public class DifferTest {
                 + name;
     }
 
+    /**
+     * Инициализация ожидаемой тестовой строки.
+     */
     @BeforeEach
     public void init() {
         expected = """
