@@ -93,7 +93,7 @@ public class DifferTest {
     @DisplayName("измененные ключи помечаются -/+ в  двух строках")
     public void testDifferComplex() throws IOException {
         var file1 = getPath("complex1.json");
-        var file2 = getPath("complex.json");
+        var file2 = getPath("complex2.json");
         var diff = new Differ(file1, file2);
         var actual = diff.generate();
         var expected = """
