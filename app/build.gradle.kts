@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.TestResult
+
 plugins {
     id("java")
     id ("com.github.ben-manes.versions") version "0.51.0"
@@ -20,7 +22,7 @@ dependencies {
     implementation ("info.picocli:picocli:4.7.7")
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.21.1"))
     implementation ("com.fasterxml.jackson.core:jackson-databind")
-    implementation ("org.apache.commons:commons-collections4:4.4")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.2")
 }
 
 tasks.test {

@@ -1,0 +1,19 @@
+string: "Hello World"
+number_int: 42
+number_float: 3.14159
+boolean_true: true
+boolean_false: false
+null_value: null
+only_in_second: "this is unique to second"
+changed_string: "new value"
+changed_number: 200
+changed_boolean: false
+same_string: "identical"
+same_number: 999
+same_boolean: false
+same_null: null
+aaa_very_early_key: "should be first"
+zzz_very_late_key: "should be last"
+added_key_completely_new: "brand new key"
+case_sensitive_Key: "MIXED CASE CHANGED"
+CASE_INSENSITIVE_test: "LOWER CASE CHANGED"

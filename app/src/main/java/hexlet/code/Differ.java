@@ -1,14 +1,11 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
+import java.util.Objects;
 import java.util.TreeSet;
 
 public class Differ {
@@ -16,12 +13,12 @@ public class Differ {
      * Поле для хранения строки.
      * Строка читается из первого входного файла
      */
-    private final String firstFile;
+    private final Path pathFirstFile;
     /**
      * Поле для хранения строки.
      * Строка читается из второго входного файла.
      */
-    private final String secondFile;
+    private final Path pathSecondFile;
 
     /**
      * Конструктор класса Differ.
@@ -31,8 +28,8 @@ public class Differ {
      */
     public Differ(final String filepath1,
                   final String filepath2) throws IOException {
-        firstFile = getStringFile(getAbsolute(filepath1));
-        secondFile = getStringFile(getAbsolute(filepath2));
+        pathFirstFile = getAbsolute(filepath1);
+        pathSecondFile = getAbsolute(filepath2);
     }
 
     private Path getAbsolute(final String file) {
@@ -49,27 +46,16 @@ public class Differ {
         return path.normalize();
     }
 
-    private String getStringFile(final Path path) throws IOException {
-        return Files.readString(path).strip();
-    }
-
-    private Map<String, Object> getMap(final String json)
-            throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, new TypeReference<>() {
-        });
-    }
-
     /**
      * Метод генерации строки, содержащей различия в переданных файлах.
      * @return строка, содержащая различия в файлах
      */
     public String generate()
-            throws JsonProcessingException {
+            throws IOException {
         //Формируем мапы из строк, полученных
         // в результате чтения входных файлов.
-        var map1 = getMap(firstFile);
-        var map2 = getMap(secondFile);
+        var map1 = Parser.getMap(pathFirstFile);
+        var map2 = Parser.getMap(pathSecondFile);
         //Создаем множество для хранения сортированного множества ключей
         var allKeys = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         //добавляем ключи из карт
@@ -98,7 +84,7 @@ public class Differ {
                         .append(": ")
                         .append(value2)
                         .append("\n");
-            } else if (value1.equals(value2)) {
+            } else if (Objects.equals(value1, value2)) {
                 result.append("    ")
                         .append(key)
                         .append(": ")

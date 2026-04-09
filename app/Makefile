@@ -1,6 +1,7 @@
-run-dist:
-	./build/install/app/bin/app  src/main/resources/simple1.json src/main/resources/simple2.json
-
+run-yaml:
+	./build/install/app/bin/app src/test/resources/fixtures/complex1.yaml src/test/resources/fixtures/complex2.yaml
+run-json:
+	./build/install/app/bin/app src/test/resources/fixtures/complex1.json src/test/resources/fixtures/complex2.json
 run-help:
 	./build/install/app/bin/app -h
 run-ver:
