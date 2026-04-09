@@ -24,13 +24,12 @@ public final class Parser {
      */
     public static Map<String, Object> getMap(final Path file)
             throws IOException {
-        ObjectMapper mapper = null;
+        ObjectMapper mapper;
         var readFile = getStringFile(file);
-        if (getExtention(file).equals("yaml")) {
-            mapper = new ObjectMapper(new YAMLFactory());
-        }
-        if ((getExtention(file).equals("json"))) {
+        if (getExtention(file).equals("json")) {
             mapper = new ObjectMapper();
+        } else {
+            mapper = new ObjectMapper(new YAMLFactory());
         }
         return mapper.readValue(readFile, new TypeReference<>() {
         });
