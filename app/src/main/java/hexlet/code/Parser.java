@@ -10,9 +10,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class Parser {
+public final class Parser {
 
-    public static Map<String, Object> getMap(Path file) throws IOException {
+    private Parser() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
+    /**
+     *
+     * @param file - на вход принимается абсолютный путь к файлу
+     * @return возвращается Map считанная из входного файла
+     * @throws IOException
+     */
+    public static Map<String, Object> getMap(final Path file)
+            throws IOException {
         ObjectMapper mapper = null;
         var readFile = getStringFile(file);
         if (getExtention(file).equals("yaml")) {
@@ -29,7 +40,7 @@ public class Parser {
         return Files.readString(path).strip();
     }
 
-    private static String getExtention(Path path) {
+    private static String getExtention(final Path path) {
         String filename = path.getFileName().toString();
         String extension = "";
         int lastDot = filename.lastIndexOf('.');
