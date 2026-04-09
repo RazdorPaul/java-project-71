@@ -1,0 +1,8 @@
+{
+  "id": 101,
+  "status": "success",
+  "name": "Paul",
+  "code": 200,
+  "color": "green",
+  "message": "Hello World"
+}
