@@ -5,3 +5,5 @@ run-help:
 	./build/install/app/bin/app -h
 run-ver:
 	./build/install/app/bin/app -v
+run-test:
+	./gradlew test

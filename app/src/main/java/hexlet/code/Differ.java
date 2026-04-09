@@ -61,34 +61,15 @@ public class Differ {
     }
 
     /**
-     * Геттер поля класса.
-     * @return - строковое представление первого переданного файла.
-     */
-    public final String getFirstFile() {
-        return firstFile;
-    }
-
-    /**
-     * Геттер поля класса.
-     * @return - строковое представление второго переданного файла.
-     */
-    public final String getSecondFile() {
-        return secondFile;
-    }
-
-    /**
      * Метод генерации строки, содержащей различия в переданных файлах.
-     * @param file1 - строковое представление первого переданного файла.
-     * @param file2 - строковое представление второго переданного файла.
      * @return строка, содержащая различия в файлах
-     * @throws JsonProcessingException
      */
-    public String generate(final String file1, final String file2)
+    public String generate()
             throws JsonProcessingException {
         //Формируем мапы из строк, полученных
         // в результате чтения входных файлов.
-        var map1 = getMap(file1);
-        var map2 = getMap(file2);
+        var map1 = getMap(firstFile);
+        var map2 = getMap(secondFile);
         //Создаем множество для хранения сортированного множества ключей
         var allKeys = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         //добавляем ключи из карт
