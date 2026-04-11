@@ -24,8 +24,7 @@ public class Differ {
      * @param filepath2 - имя второго файла.
      * Возможно исключение IOException.
      */
-    public Differ(final String filepath1,
-                  final String filepath2) throws IOException {
+    public Differ(final String filepath1, final String filepath2) {
         pathFirstFile = getAbsolute(filepath1);
         pathSecondFile = getAbsolute(filepath2);
     }

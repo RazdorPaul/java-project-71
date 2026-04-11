@@ -1,0 +1,43 @@
+{
+  "string": "Hello World",
+  "number": 42,
+  "boolean": true,
+  "null_value": null,
+  "array_strings": ["apple", "banana", "cherry"],
+  "array_numbers": [1, 2, 3, 4, 5],
+  "array_mixed": [1, "two", true, null],
+  "simple_object": {
+    "name": "John",
+    "age": 30,
+    "city": "New York"
+  },
+  "nested_object": {
+    "level1": {
+      "level2": {
+        "level3": "deep value"
+      }
+    }
+  },
+  "array_of_objects": [
+    {"id": 1, "name": "first"}
+  ],
+  "only_in_first": "this is unique to first",
+  "changed_string": "old value",
+  "changed_number": 100,
+  "changed_boolean": true,
+  "changed_array": [1, 2, 3],
+  "changed_object": {
+    "key": "old",
+    "keep": "same"
+  },
+  "same_string": "identical",
+  "same_number": 999,
+  "same_boolean": false,
+  "same_array": [10, 20, 30],
+  "same_object": {
+    "a": 1,
+    "b": 2
+  },
+  "aaa_first_key": "should be first",
+  "zzz_last_key": "should be last"
+}
