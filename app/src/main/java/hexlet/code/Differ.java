@@ -3,6 +3,7 @@ package hexlet.code;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.TreeSet;
 
@@ -47,7 +48,7 @@ public class Differ {
      * Метод генерации строки, содержащей различия в переданных файлах.
      * @return строка, содержащая различия в файлах
      */
-    public String generate()
+    public String generate(String format)
             throws IOException {
         //Формируем мапы из строк, полученных
         // в результате чтения входных файлов.
@@ -58,49 +59,21 @@ public class Differ {
         //добавляем ключи из карт
         allKeys.addAll(map1.keySet());
         allKeys.addAll(map2.keySet());
-        //создаем билдер для сборки результирующей строки
-        var result = new StringBuilder("{\n");
+        ArrayList<DiffData> diff = new ArrayList<>();
         //обходим множество ключей
         for (String key : allKeys) {
-            //создаем переменные для хранения значений, где ключом
-            //выступает элемент созданного множества, а в переменные
-            //записываются значения этого ключа из обеих карт
             var value1 = map1.get(key);
             var value2 = map2.get(key);
-            //дальше собираем строку из пар обеих мап
-            // по правилам в спецификациях задачи.
             if (map1.containsKey(key) && !map2.containsKey(key)) {
-                result.append("  - ")
-                        .append(key)
-                        .append(": ")
-                        .append(value1).
-                        append("\n");
+                diff.add(new DiffData(key, value1, value2, "removed"));
             } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                result.append("  + ")
-                        .append(key)
-                        .append(": ")
-                        .append(value2)
-                        .append("\n");
+                diff.add(new DiffData(key, value1, value2, "added"));
             } else if (Objects.equals(value1, value2)) {
-                result.append("    ")
-                        .append(key)
-                        .append(": ")
-                        .append(value1)
-                        .append("\n");
+                diff.add(new DiffData(key, value1, value2, "unchanged"));
             } else {
-                result.append("  - ")
-                        .append(key)
-                        .append(": ")
-                        .append(value1)
-                        .append("\n");
-                result.append("  + ")
-                        .append(key)
-                        .append(": ")
-                        .append(value2)
-                        .append("\n");
+                diff.add(new DiffData(key, value1, value2, "changed"));
             }
         }
-
         return result.append("}").toString();
     }
 }

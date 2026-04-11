@@ -52,7 +52,7 @@ public final class App implements Callable<Integer> {
     public Integer call() {
         try {
             Differ gen = new Differ(filepath1, filepath2);
-            var mess = gen.generate();
+            var mess = gen.generate(format);
             System.out.println(mess);
         } catch (IOException e) {
             System.err.println("При вызове программы указаны "

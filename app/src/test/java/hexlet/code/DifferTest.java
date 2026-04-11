@@ -107,7 +107,7 @@ public class DifferTest {
         var file1 = getPath("complex1.json");
         var file2 = getPath("complex2.json");
         var diff = new Differ(file1, file2);
-        var actual = diff.generate();
+        var actual = diff.generate("stylish");
         assertEquals(expectedFlat, actual);
     }
 
@@ -121,7 +121,7 @@ public class DifferTest {
         var file1 = getPath("complex1.yaml");
         var file2 = getPath("complex2.yaml");
         var diff = new Differ(file1, file2);
-        var actual = diff.generate();
+        var actual = diff.generate("stylish");
         assertEquals(expectedFlat, actual);
     }
 
@@ -135,7 +135,7 @@ public class DifferTest {
         var file1 = getPath("complex1.yaml");
         var file2 = getPath("complex2.yaml");
         var diff = new Differ(file1, file2);
-        var actual = diff.generate();
+        var actual = diff.generate("stylish");
         assertEquals(expectedFlat, actual);
     }
 
@@ -149,7 +149,7 @@ public class DifferTest {
         var file1 = getPath("complex_nested1.json");
         var file2 = getPath("complex_nested2.json");
         var diff = new Differ(file1, file2);
-        var actual = diff.generate();
+        var actual = diff.generate("stylish");
         assertEquals(expectedNested, actual);
     }
 
@@ -163,7 +163,7 @@ public class DifferTest {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
         var diff = new Differ(file1, file2);
-        var actual = diff.generate();
+        var actual = diff.generate("stylish");
         assertEquals(expectedNested, actual);
     }
 
@@ -177,7 +177,7 @@ public class DifferTest {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
         var diff = new Differ(file1, file2);
-        var actual = diff.generate();
+        var actual = diff.generate("stylish");
         assertEquals(expectedNested, actual);
     }
 }
