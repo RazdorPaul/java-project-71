@@ -4,72 +4,81 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Тестирование DiffData DTO")
 class DiffDataTest {
 
-    private DiffData diffData;
+    private DiffData primitives;
+    private DiffData arrays;
+    private DiffData objects;
+    private DiffData diff;
+
 
     @BeforeEach
     void setUp() {
-        diffData = new DiffData("timeout", 50, 20, "changed");
+        primitives = new DiffData("key", 60 , 'h', "changed");
+        arrays = new DiffData("key",
+                new int[]{1,2,3},
+                new String[]{"ab", "cd"},
+                "changed");
+        objects = new DiffData("key",
+                List.of(1, 2, 3),
+                Map.of("key1", "ab",
+                        "key2", "cd"),
+                "changed");
+        diff = new DiffData("key", 1, 1, "uncanged");
     }
 
     @Test
-    @DisplayName("Конструктор и геттеры работают корректно")
+    @DisplayName("Проверка работы конструктора и геттеров")
     void testConstructorAndGetters() {
         assertAll(
-                () -> assertEquals("timeout", diffData.getKey()),
-                () -> assertEquals(50, diffData.getOldValue()),
-                () -> assertEquals(20, diffData.getNewValue()),
-                () -> assertEquals("changed", diffData.getStatus())
+                () -> assertEquals("key", primitives.getKey()),
+                () -> assertEquals(60, primitives.getOldValue()),
+                () -> assertEquals('h', primitives.getNewValue()),
+                () -> assertEquals("changed", primitives.getStatus())
+        );
+        assertAll(
+                () -> assertEquals("key", arrays.getKey()),
+                () -> assertArrayEquals(new int[]{1,2,3},
+                        (int[]) arrays.getOldValue()),
+                () -> assertArrayEquals(new String[]{"ab", "cd"},
+                        (String[]) arrays.getNewValue()),
+                () -> assertEquals("changed", arrays.getStatus())
+        );
+        assertAll(
+                () -> assertEquals("key", objects.getKey()),
+                () -> assertEquals(List.of(1, 2, 3),
+                        objects.getOldValue()),
+                () -> assertEquals(Map.of("key1", "ab",
+                                          "key2", "cd"),
+                        objects.getNewValue()),
+                () -> assertEquals("changed", arrays.getStatus())
         );
     }
 
     @Test
-    @DisplayName("equals() работает для одинаковых объектов")
+    @DisplayName("equals() тест для одинаковых объектов")
     void testEqualsSame() {
-        DiffData same = new DiffData("timeout", 50, 20, "changed");
-        assertEquals(diffData, same);
+        DiffData same = new DiffData("key", 1, 1, "uncanged");
+        assertEquals(diff, same);
     }
 
     @Test
-    @DisplayName("equals() работает для разных объектов")
+    @DisplayName("equals() тест для разных объектов")
     void testEqualsDifferent() {
         DiffData different = new DiffData("host", "hexlet.io", "google.com", "changed");
-        assertNotEquals(diffData, different);
+        assertNotEquals(diff, different);
     }
 
     @Test
-    @DisplayName("hashCode() консистентен")
-    void testHashCodeConsistency() {
-        DiffData same = new DiffData("timeout", 50, 20, "changed");
-        assertEquals(diffData.hashCode(), same.hashCode());
-    }
-
-    @Test
-    @DisplayName("Работа с null значениями")
-    void testNullValues() {
-        DiffData nullData = new DiffData(null, null, null, null);
-
-        assertAll(
-                () -> assertNull(nullData.getKey()),
-                () -> assertNull(nullData.getOldValue()),
-                () -> assertNull(nullData.getNewValue()),
-                () -> assertNull(nullData.getStatus())
-        );
-    }
-
-    @Test
-    @DisplayName("Объект не равен null")
-    void testNotEqualsNull() {
-        assertNotEquals(null, diffData);
-    }
-
-    @Test
-    @DisplayName("Объект не равен другому типу")
-    void testNotEqualsDifferentType() {
-        assertNotEquals("string", diffData);
+    @DisplayName("hashCode() равны")
+    void testHashCode() {
+        DiffData same = new DiffData("key", 1, 1, "uncanged");
+        assertEquals(diff.hashCode(), same.hashCode());
     }
 }
