@@ -49,9 +49,10 @@ public class Differ {
 
     /**
      * Метод генерации строки, содержащей различия в переданных файлах.
+     * @param format -срока содержит имя желаемого формата для выходной строки
      * @return строка, содержащая различия в файлах
      */
-    public String generate(String format)
+    public String generate(final String format)
             throws IOException {
         //Формируем мапы из строк, полученных
         // в результате чтения входных файлов.
@@ -80,9 +81,10 @@ public class Differ {
         return formattedDiff(format, diff);
     }
 
-    private String formattedDiff(String format, List<DiffData> diff) {
+    private String formattedDiff(final String format,
+                                 final List<DiffData> diff) {
         String result = "";
-        switch(format) {
+        switch (format) {
             case "stylish" :
                 result = new StylishFormatter().diffToString(diff);
                 break;

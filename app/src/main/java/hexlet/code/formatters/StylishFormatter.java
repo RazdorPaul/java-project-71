@@ -6,13 +6,33 @@ import java.util.List;
 
 public class StylishFormatter implements Formatter {
 
+    /**
+     * Содержит текушее oldValue узла DiffData.
+     */
     private String oldValue;
+    /**
+     * Содержит текушее newValue узла DiffData.
+     */
     private String newValue;
+    /**
+     * Содержит текущий status узла DiffData.
+     */
     private String status;
+    /**
+     * Содержит текущий key узла DiffData.
+     */
     private String key;
+    /**
+     * Содержит строку с уже проверенными узлами.
+     */
     private StringBuilder result = new StringBuilder();
 
-    public String diffToString(List<DiffData> diffData) {
+    /**
+     *
+     * @param diffData - принимает список узлов DiffData.
+     * @return String - приведенный к формату stylish список различий.
+     */
+    public String diffToString(final List<DiffData> diffData) {
         result.append("{\n");
         for (var node : diffData) {
             setValues(node);
@@ -25,7 +45,7 @@ public class StylishFormatter implements Formatter {
                 result.append("- ").append(key).append(": ").
                         append(oldValue).
                         append("\n");
-            } else if (status.equals(CHANGED)){
+            } else if (status.equals(CHANGED)) {
                 result.append("- ").append(key).append(": ").
                         append(oldValue).
                         append("\n");
@@ -41,13 +61,13 @@ public class StylishFormatter implements Formatter {
         return result.toString();
     }
 
-    private void setValues(DiffData node) {
-        if (node.getOldValue() != null){
+    private void setValues(final DiffData node) {
+        if (node.getOldValue() != null) {
             oldValue = node.getOldValue().toString();
         } else {
             oldValue = "null";
         }
-        if (node.getNewValue() != null){
+        if (node.getNewValue() != null) {
             newValue = node.getNewValue().toString();
         } else {
             newValue = "null";
@@ -56,4 +76,3 @@ public class StylishFormatter implements Formatter {
         key = node.getKey();
     }
 }
-

@@ -7,30 +7,64 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @DisplayName("Тестирование DiffData DTO")
 class DiffDataTest {
 
+    /**
+     * Переменная содержит тестовый объект.
+     */
     private DiffData primitives;
+    /**
+     * Переменная содержит тестовый объект.
+     */
     private DiffData arrays;
+    /**
+     * Переменная содержит тестовый объект.
+     */
     private DiffData objects;
+    /**
+     * Переменная содержит тестовый объект.
+     */
     private DiffData diff;
+
+    /**
+     * Содержит тестовый список.
+     */
+    private final List<Integer> testList = List.of(10, 20, 30);
+    /**
+     * Содержит тестовый массив.
+     */
+    private final int[] testArray = {10, 20, 30};
+    /**
+     * Содержит тестовый примитив.
+     */
+    private final int testNumber = 10;
 
 
     @BeforeEach
     void setUp() {
-        primitives = new DiffData("key", 60 , 'h', "changed");
+        primitives = new DiffData("key",
+                testNumber,
+                'h',
+                "changed");
         arrays = new DiffData("key",
-                new int[]{1,2,3},
+                testArray,
                 new String[]{"ab", "cd"},
                 "changed");
         objects = new DiffData("key",
-                List.of(1, 2, 3),
+                testList,
                 Map.of("key1", "ab",
                         "key2", "cd"),
                 "changed");
-        diff = new DiffData("key", 1, 1, "uncanged");
+        diff = new DiffData("key",
+                1,
+                1,
+                "unchanged");
     }
 
     @Test
@@ -38,13 +72,13 @@ class DiffDataTest {
     void testConstructorAndGetters() {
         assertAll(
                 () -> assertEquals("key", primitives.getKey()),
-                () -> assertEquals(60, primitives.getOldValue()),
+                () -> assertEquals(testNumber, primitives.getOldValue()),
                 () -> assertEquals('h', primitives.getNewValue()),
                 () -> assertEquals("changed", primitives.getStatus())
         );
         assertAll(
                 () -> assertEquals("key", arrays.getKey()),
-                () -> assertArrayEquals(new int[]{1,2,3},
+                () -> assertArrayEquals(testArray,
                         (int[]) arrays.getOldValue()),
                 () -> assertArrayEquals(new String[]{"ab", "cd"},
                         (String[]) arrays.getNewValue()),
@@ -52,7 +86,7 @@ class DiffDataTest {
         );
         assertAll(
                 () -> assertEquals("key", objects.getKey()),
-                () -> assertEquals(List.of(1, 2, 3),
+                () -> assertEquals(testList,
                         objects.getOldValue()),
                 () -> assertEquals(Map.of("key1", "ab",
                                           "key2", "cd"),
@@ -64,21 +98,30 @@ class DiffDataTest {
     @Test
     @DisplayName("equals() тест для одинаковых объектов")
     void testEqualsSame() {
-        DiffData same = new DiffData("key", 1, 1, "uncanged");
+        DiffData same = new DiffData("key",
+                1,
+                1,
+                "unchanged");
         assertEquals(diff, same);
     }
 
     @Test
     @DisplayName("equals() тест для разных объектов")
     void testEqualsDifferent() {
-        DiffData different = new DiffData("host", "hexlet.io", "google.com", "changed");
+        DiffData different = new DiffData("host",
+                "hexlet.io",
+                "google.com",
+                "changed");
         assertNotEquals(diff, different);
     }
 
     @Test
     @DisplayName("hashCode() равны")
     void testHashCode() {
-        DiffData same = new DiffData("key", 1, 1, "uncanged");
+        DiffData same = new DiffData("key",
+                1,
+                1,
+                "unchanged");
         assertEquals(diff.hashCode(), same.hashCode());
     }
 }
