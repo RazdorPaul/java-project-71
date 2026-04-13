@@ -85,10 +85,11 @@ public class Differ {
                                  final List<DiffData> diff) {
         String result = "";
         switch (format) {
-            case "stylish" :
+            case "json" :
                 result = new StylishFormatter().diffToString(diff);
                 break;
             default:
+                result = new StylishFormatter().diffToString(diff);
                 break;
         }
         return result;
