@@ -1,12 +1,11 @@
 package hexlet.code;
 
-import hexlet.code.formatters.StylishFormatter;
+import hexlet.code.formatters.Formatter;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
 
@@ -78,20 +77,7 @@ public class Differ {
                 diff.add(new DiffData(key, value1, value2, "changed"));
             }
         }
-        return formattedDiff(format, diff);
-    }
-
-    private String formattedDiff(final String format,
-                                 final List<DiffData> diff) {
-        String result = "";
-        switch (format) {
-            case "json" :
-                result = new StylishFormatter().diffToString(diff);
-                break;
-            default:
-                result = new StylishFormatter().diffToString(diff);
-                break;
-        }
-        return result;
+        Formatter formatter = Formatter.of(format);
+        return formatter.diffToString(diff);
     }
 }

@@ -42,19 +42,19 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
         
     - name: Run Checkstyle
-      run: ./gradlew checkstyleMain checkstyleTest
+      run: make test-src
       
     - name: Run tests with coverage
-      run: ./gradlew test jacocoTestReport
+      run: make test
       
     - name: Build with Gradle
-      run: ./gradlew build
+      run: make build
       
     - name: SonarQube Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: ./gradlew sonarqube --info
-    
+      run: make sonar
+      
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:

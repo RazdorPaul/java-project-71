@@ -28,4 +28,18 @@ public interface Formatter {
      * @return - приведенный в строку список различий
      */
     String diffToString(List<DiffData> diff);
+
+    /**
+     * Метод выбора реализации в зависимости от переданного формата.
+     * @param format - принимает формат выода
+     * @return возвращает реализацию Formatter
+     */
+    static Formatter of(String format) {
+        switch (format) {
+            case "plain":
+                return new PlainFormatter();
+            default:
+                return new StylishFormatter();
+        }
+    }
 }

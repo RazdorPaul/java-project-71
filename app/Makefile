@@ -1,12 +1,24 @@
-run-yaml:
-	./build/install/app/bin/app src/test/resources/fixtures/complex1.yaml src/test/resources/fixtures/complex2.yaml
-run-yml:
-	./build/install/app/bin/app src/test/resources/fixtures/complex1.yml src/test/resources/fixtures/complex2.yml
-run-json:
-	./build/install/app/bin/app src/test/resources/fixtures/complex1.json src/test/resources/fixtures/complex2.json
-run-help:
-	./build/install/app/bin/app -h
-run-ver:
-	./build/install/app/bin/app -v
-run-test:
+.PHONY: run-dist run build clean test test-src sonar
+
+FIXTURES := src/test/resources/fixtures
+FILES ?=
+FORMAT ?=
+
+run-dist:
+	./build/install/app/bin/app $(addprefix $(FIXTURES)/,$(FILES)) $(if $(FORMAT),-f $(FORMAT))
+
+run:
+	./gradlew run --args='$(addprefix $(FIXTURES)/,$(FILES)) $(if $(FORMAT),-f $(FORMAT))'
+build:
+	./gradlew clean build installDist
+clean:
+	./gradlew clean
+test:
 	./gradlew test
+test-src:
+	./gradlew checkstyleMain checkstyleTest
+
+sonar:
+	./gradlew sonarqube --info
+
+all: build test-src test sonar
