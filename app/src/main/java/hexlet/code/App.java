@@ -50,14 +50,18 @@ public final class App implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        var mess = "";
         try {
-            Differ gen = new Differ(filepath1, filepath2);
-            var mess = gen.generate(format);
+            if (format != null) {
+                mess = Differ.generate(filepath1, filepath2, format);
+            } else {
+                mess = Differ.generate(filepath1, filepath2);
+            }
             System.out.println(mess);
         } catch (IOException e) {
             System.err.println("При вызове программы указаны "
                     + "неверные пути к файлу/ам: " + e.getMessage());
-            return -1;
+            return 1;
         }
         return 0;
     }

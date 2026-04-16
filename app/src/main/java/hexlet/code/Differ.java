@@ -11,30 +11,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeSet;
 
-public class Differ {
-    /**
-     * Поле для хранения строки.
-     * Строка читается из первого входного файла
-     */
-    private final Path pathFirstFile;
-    /**
-     * Поле для хранения строки.
-     * Строка читается из второго входного файла.
-     */
-    private final Path pathSecondFile;
+public final class Differ {
 
-    /**
-     * Конструктор класса Differ.
-     * @param filepath1 - имя первого файла.
-     * @param filepath2 - имя второго файла.
-     * Возможно исключение IOException.
-     */
-    public Differ(final String filepath1, final String filepath2) {
-        pathFirstFile = getAbsolute(filepath1);
-        pathSecondFile = getAbsolute(filepath2);
+    private Differ() {
     }
 
-    private Path getAbsolute(final String file) {
+    private static Path getAbsolute(final String file) {
         Path path;
         if (file.startsWith("~")) {
             path = Paths.get(System.getProperty("user.home"),
@@ -50,18 +32,33 @@ public class Differ {
 
     /**
      * Метод генерации строки, содержащей различия в переданных файлах.
+     * @param file1 - имя первого переданного файла
+     * @param file2 - имя второго переданного файла
      * @param format -срока содержит имя желаемого формата для выходной строки
      * @return строка, содержащая различия в файлах
      */
-    public String generate(final String format)
-            throws IOException {
+    public static String generate(final String file1,
+                                  final String file2,
+                                  final String format)
+                                    throws IOException {
         //Формируем мапы из строк, полученных
         // в результате чтения входных файлов.
-        var map1 = Parser.getMap(pathFirstFile);
-        var map2 = Parser.getMap(pathSecondFile);
+        var map1 = Parser.getMap(getAbsolute(file1));
+        var map2 = Parser.getMap(getAbsolute(file2));
         var diff = buildDiff(map1, map2);
         Formatter formatter = Formatter.of(format);
         return formatter.diffToString(diff);
+    }
+
+    /**
+     * Метод генерации строки, содержащей различия в переданных файлах.
+     * @param file1 - имя первого переданного файла
+     * @param file2 - имя второго переданного файла
+     * @return строка, содержащая различия в файлах
+     */
+    public static String generate(final String file1, final String file2)
+            throws IOException {
+        return generate(file1, file2, "stylish");
     }
 
     private static List<DiffData> buildDiff(final Map<String, Object> map1,

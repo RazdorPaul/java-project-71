@@ -61,8 +61,7 @@ public class DifferTest {
     public void testDifferComplexStylishJson() throws IOException {
         var file1 = getPath("complex_nested1.json");
         var file2 = getPath("complex_nested2.json");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("stylish");
+        var actual = Differ.generate(file1, file2, "stylish");
         assertEquals(expectedStylish, actual);
     }
 
@@ -75,8 +74,7 @@ public class DifferTest {
     public void testDifferComplexStylishYaml() throws IOException {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("stylish");
+        var actual = Differ.generate(file1, file2, "stylish");
         assertEquals(expectedStylish, actual);
     }
 
@@ -89,8 +87,7 @@ public class DifferTest {
     public void testDifferComplexStylishYml() throws IOException {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("stylish");
+        var actual = Differ.generate(file1, file2, "stylish");
         assertEquals(expectedStylish, actual);
     }
 
@@ -103,8 +100,7 @@ public class DifferTest {
     public void testDifferComplexPlainJson() throws IOException {
         var file1 = getPath("complex_nested1.json");
         var file2 = getPath("complex_nested2.json");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("plain");
+        var actual = Differ.generate(file1, file2, "plain");
         assertEquals(expectedPlain, actual);
     }
 
@@ -117,8 +113,7 @@ public class DifferTest {
     public void testDifferComplexPlainYaml() throws IOException {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("plain");
+        var actual = Differ.generate(file1, file2, "plain");
         assertEquals(expectedPlain, actual);
     }
 
@@ -131,8 +126,7 @@ public class DifferTest {
     public void testDifferComplexPlainYml() throws IOException {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("plain");
+        var actual = Differ.generate(file1, file2, "plain");
         assertEquals(expectedPlain, actual);
     }
 
@@ -145,8 +139,7 @@ public class DifferTest {
     public void testDifferComplexJsonJson() throws IOException {
         var file1 = getPath("complex_nested1.json");
         var file2 = getPath("complex_nested2.json");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("json");
+        var actual = Differ.generate(file1, file2, "json");
         assertEquals(expectedJson, actual);
     }
 
@@ -159,8 +152,7 @@ public class DifferTest {
     public void testDifferComplexJsonYaml() throws IOException {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("json");
+        var actual = Differ.generate(file1, file2, "json");
         assertEquals(expectedJson, actual);
     }
 
@@ -173,8 +165,7 @@ public class DifferTest {
     public void testDifferComplexJsonYml() throws IOException {
         var file1 = getPath("complex_nested1.yaml");
         var file2 = getPath("complex_nested2.yaml");
-        var diff = new Differ(file1, file2);
-        var actual = diff.generate("json");
+        var actual = Differ.generate(file1, file2, "json");
         assertEquals(expectedJson, actual);
     }
 }
