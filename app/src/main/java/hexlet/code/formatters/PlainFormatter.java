@@ -18,34 +18,49 @@ public class PlainFormatter implements Formatter {
      */
     @Override
     public String diffToString(final List<DiffData> diff) {
-        var result = new StringBuilder();
-        for (var node : diff) {
-            var status = node.getStatus();
-            if (!status.equals("unchanged")) {
-                result.append("Property '").
-                        append(node.getKey()).
-                        append("' was ");
-                if (status.equals(REMOVED)) {
-                    result.append("removed\n");
-                }
-                if (status.equals(ADDED)) {
-                    result.append("added with value: ").
-                            append(formatValue(node.getNewValue())).
-                            append("\n");
-                }
-                if (status.equals(CHANGED)) {
-                    result.append("updated. From ").
-                            append(formatValue(node.getOldValue())).
-                            append(" to ").
-                            append(formatValue(node.getNewValue())).
-                            append("\n");
-                }
+        var builder = new StringBuilder();
+        for (DiffData node : diff) {
+            formatNode(node, "", builder);
+        }
+        if (!builder.isEmpty()
+                && builder.charAt(builder.length() - 1) == '\n') {
+            builder.setLength(builder.length() - 1);
+        }
+        return builder.toString();
+    }
+
+    private void formatNode(final DiffData node,
+                            final String path,
+                            final StringBuilder builder) {
+        var currentPath = path.isEmpty() ? node.getKey() : path
+                                                         + "."
+                                                         + node.getKey();
+        var oldValue = node.getOldValue();
+        var newValue = node.getNewValue();
+        var status = node.getStatus();
+        if (status.equals(NESTED)) {
+            for (DiffData child : node.getChild()) {
+                formatNode(child, currentPath, builder);
             }
+        } else if (status.equals(REMOVED)) {
+            builder.append("Property '").
+                    append(currentPath).
+                    append("' was removed\n");
+        } else if (status.equals(ADDED)) {
+            builder.append("Property '").
+                    append(currentPath).
+                    append("' was added with value: ").
+                    append(formatValue(newValue)).
+                    append("\n");
+        } else if (status.equals(CHANGED)) {
+            builder.append("Property '").
+                    append(currentPath).
+                    append("' was updated. From ").
+                    append(formatValue(oldValue)).
+                    append(" to ").
+                    append(formatValue(newValue)).
+                    append("\n");
         }
-        if (!result.isEmpty() && result.charAt(result.length() - 1) == '\n') {
-            result.setLength(result.length() - 1);
-        }
-        return result.toString();
     }
 
     private String formatValue(final Object value) {

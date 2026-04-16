@@ -1,7 +1,11 @@
 string: Hello World
 number: 42
 boolean: true
-null_value: null
+null_value: not null anymore
+null_unchanged: null
+null_to_value: now has value
+value_to_null: null
+null_added_later: null
 array_strings: [apple, banana, cherry]
 array_numbers: [1, 2, 3, 4, 5]
 array_mixed: [1, two, true, null]

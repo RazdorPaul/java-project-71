@@ -1,6 +1,7 @@
 package hexlet.code;
 
 
+import java.util.List;
 import java.util.Objects;
 
 public final class DiffData {
@@ -8,18 +9,26 @@ public final class DiffData {
      * Содержит ключ, для которого строится различие.
      */
     private final String key;
+
     /**
      * Содержит значение ключа из первого файла.
      */
     private final Object oldValue;
+
     /**
      * Содержит значение ключа из второго файла.
      */
     private final Object newValue;
+
     /**
      * Содержит статус различий для этого ключа.
      */
     private final String status;
+
+    /**
+     * Содержит List<DiffData> - список различий для вложенной мапы.
+     */
+    private final List<DiffData> child;
 
     /**
      * Конструктор для создания узла - объекта DiffData.
@@ -27,15 +36,18 @@ public final class DiffData {
      * @param oldValueNode - содержит значение ключа из первого файла
      * @param newValueNode - содержит значение ключа из второго файла
      * @param statusNode - содержит статус различий для этого ключа
+     * @param childNode - содержит различия во вложенных узлах
      */
     public DiffData(final String keyNode,
                     final Object oldValueNode,
                     final Object newValueNode,
-                    final String statusNode) {
+                    final String statusNode,
+                    final List<DiffData> childNode) {
         key = keyNode;
         status = statusNode;
         oldValue = oldValueNode;
         newValue = newValueNode;
+        child = childNode;
     }
 
     /**
@@ -71,6 +83,14 @@ public final class DiffData {
     }
 
     /**
+     * Геттер для поля класса newValue.
+     * @return List<DiffData>, содержащий различия во вложенном узле.
+     */
+    public List<DiffData> getChild() {
+        return child;
+    }
+
+    /**
      * Метод сравнивает два объекта типа DiffData.
      * @param obj - хранит передаваемый для сравнения объект.
      * @return
@@ -89,11 +109,12 @@ public final class DiffData {
         return Objects.equals(key, that.key)
                 && Objects.equals(oldValue, that.oldValue)
                 && Objects.equals(newValue, that.newValue)
-                && Objects.equals(status, that.status);
+                && Objects.equals(status, that.status)
+                && Objects.deepEquals(child, that.child);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key, oldValue, newValue, status);
+        return Objects.hash(key, oldValue, newValue, status, child);
     }
 }

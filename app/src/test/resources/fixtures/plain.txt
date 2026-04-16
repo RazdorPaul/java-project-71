@@ -1,0 +1,16 @@
+Property 'added_key_completely_new' was added with value: 'brand new key'
+Property 'array_of_objects' was updated. From [complex value] to [complex value]
+Property 'changed_array' was updated. From [complex value] to [complex value]
+Property 'changed_boolean' was updated. From true to false
+Property 'changed_number' was updated. From 100 to 200
+Property 'changed_object.extra' was added with value: 'added field'
+Property 'changed_object.key' was updated. From 'old' to 'new'
+Property 'changed_string' was updated. From 'old value' to 'new value'
+Property 'nested_object.level1.level2.level3' was updated. From 'deep value' to 'deep value changed'
+Property 'null_added_later' was updated. From 'will be removed and become null' to null
+Property 'null_removed' was removed
+Property 'null_to_value' was updated. From null to 'now has value'
+Property 'null_value' was updated. From null to 'not null anymore'
+Property 'only_in_first' was removed
+Property 'only_in_second' was added with value: 'this is unique to second'
+Property 'value_to_null' was updated. From 'will become null' to null

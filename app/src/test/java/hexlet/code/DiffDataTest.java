@@ -4,13 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @DisplayName("Тестирование DiffData DTO")
 class DiffDataTest {
@@ -19,14 +21,17 @@ class DiffDataTest {
      * Переменная содержит тестовый объект.
      */
     private DiffData primitives;
+
     /**
      * Переменная содержит тестовый объект.
      */
     private DiffData arrays;
+
     /**
      * Переменная содержит тестовый объект.
      */
     private DiffData objects;
+
     /**
      * Переменная содержит тестовый объект.
      */
@@ -36,10 +41,12 @@ class DiffDataTest {
      * Содержит тестовый список.
      */
     private final List<Integer> testList = List.of(10, 20, 30);
+
     /**
      * Содержит тестовый массив.
      */
     private final int[] testArray = {10, 20, 30};
+
     /**
      * Содержит тестовый примитив.
      */
@@ -51,20 +58,23 @@ class DiffDataTest {
         primitives = new DiffData("key",
                 testNumber,
                 'h',
-                "changed");
+                "changed",
+                null);
         arrays = new DiffData("key",
                 testArray,
                 new String[]{"ab", "cd"},
-                "changed");
+                "changed",
+                null);
         objects = new DiffData("key",
                 testList,
                 Map.of("key1", "ab",
                         "key2", "cd"),
-                "changed");
+                "changed", null);
         diff = new DiffData("key",
                 1,
                 1,
-                "unchanged");
+                "unchanged",
+                null);
     }
 
     @Test
@@ -91,8 +101,27 @@ class DiffDataTest {
                 () -> assertEquals(Map.of("key1", "ab",
                                           "key2", "cd"),
                         objects.getNewValue()),
-                () -> assertEquals("changed", arrays.getStatus())
+                () -> assertEquals("changed", objects.getStatus())
         );
+    }
+
+    @Test
+    @DisplayName("Узел с child содержит список различий для вложенных объектов")
+    void testNodeWithChildren() {
+        DiffData child1 = new DiffData("inner",
+                "old",
+                "new",
+                "changed",
+                null);
+        List<DiffData> children = List.of(child1);
+        DiffData parent = new DiffData("parent",
+                null,
+                null,
+                "nested",
+                children);
+
+        assertEquals(children, parent.getChild());
+        assertTrue(parent.getChild().contains(child1));
     }
 
     @Test
@@ -101,7 +130,8 @@ class DiffDataTest {
         DiffData same = new DiffData("key",
                 1,
                 1,
-                "unchanged");
+                "unchanged",
+                null);
         assertEquals(diff, same);
     }
 
@@ -111,7 +141,8 @@ class DiffDataTest {
         DiffData different = new DiffData("host",
                 "hexlet.io",
                 "google.com",
-                "changed");
+                "changed",
+                null);
         assertNotEquals(diff, different);
     }
 
@@ -121,7 +152,8 @@ class DiffDataTest {
         DiffData same = new DiffData("key",
                 1,
                 1,
-                "unchanged");
+                "unchanged",
+                null);
         assertEquals(diff.hashCode(), same.hashCode());
     }
 }

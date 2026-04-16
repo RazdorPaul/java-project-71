@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TreeSet;
 
@@ -57,27 +59,48 @@ public class Differ {
         // в результате чтения входных файлов.
         var map1 = Parser.getMap(pathFirstFile);
         var map2 = Parser.getMap(pathSecondFile);
+        var diff = buildDiff(map1, map2);
+        Formatter formatter = Formatter.of(format);
+        return formatter.diffToString(diff);
+    }
+
+    private static List<DiffData> buildDiff(final Map<String, Object> map1,
+                                           final Map<String, Object> map2) {
+        var diff = new ArrayList<DiffData>();
         //Создаем множество для хранения сортированного множества ключей
         var allKeys = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         //добавляем ключи из карт
         allKeys.addAll(map1.keySet());
         allKeys.addAll(map2.keySet());
-        ArrayList<DiffData> diff = new ArrayList<>();
         //обходим множество ключей
         for (String key : allKeys) {
-            var value1 = map1.get(key);
-            var value2 = map2.get(key);
-            if (map1.containsKey(key) && !map2.containsKey(key)) {
-                diff.add(new DiffData(key, value1, value2, "removed"));
-            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                diff.add(new DiffData(key, value1, value2, "added"));
-            } else if (Objects.equals(value1, value2)) {
-                diff.add(new DiffData(key, value1, value2, "unchanged"));
+            var oldValue = map1.get(key);
+            var newValue = map2.get(key);
+            var status = "";
+            List<DiffData> child = null;
+            if (!map1.containsKey(key) && map2.containsKey(key)) {
+                status = Formatter.ADDED;
+            } else if (map1.containsKey(key) && !map2.containsKey(key)) {
+                status = Formatter.REMOVED;
+            } else if (Objects.deepEquals(oldValue, newValue)) {
+                status = Formatter.UNCHANGED;
             } else {
-                diff.add(new DiffData(key, value1, value2, "changed"));
+                if (isMap(oldValue) && isMap(newValue)) {
+                    child = buildDiff((Map) oldValue, (Map) newValue);
+                    status = Formatter.NESTED;
+                } else {
+                    status = Formatter.CHANGED;
+                }
             }
+            diff.add(new DiffData(key, oldValue, newValue, status, child));
         }
-        Formatter formatter = Formatter.of(format);
-        return formatter.diffToString(diff);
+        return diff;
+    }
+
+    private static boolean isMap(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return obj instanceof Map;
     }
 }
